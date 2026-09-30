@@ -1,12 +1,17 @@
-# pi-sticky-prompt
+# pi-sticky-question
 
-An extension for the [Pi coding agent](https://pi.dev) that keeps the prompt you are reading the answer to **pinned at the top of the transcript** while you scroll.
+An extension for the [Pi coding agent](https://pi.dev) that keeps the question you are reading the answer to **pinned at the top of the transcript** while you scroll.
 
-- Scroll through a long answer → the prompt that produced it stays visible at the top.
-- Scroll up to an earlier answer → the header switches to that earlier prompt.
-- When the prompt itself is already on screen, the header hides automatically.
+- Scroll through a long answer → the question that produced it stays visible at the top.
+- Scroll up to an earlier answer → the header switches to that earlier question.
+- When the question itself is already on screen, the header hides automatically.
 
-Long prompts are wrapped to at most 3 lines and truncated with `…`. The header uses your theme's user-message colors.
+Long questions are wrapped to at most 3 lines and truncated with `…`. The header uses your theme's user-message colors.
+
+## How is this different from…
+
+- [pi-sticky-usermessage](https://github.com/pungggi/pi-sticky-usermessage) always shows your **latest** message above the editor. pi-sticky-question follows your **scroll position**: it shows the question behind whatever answer you are currently reading, even far back in the session.
+- [pi-sticky-input](https://github.com/MasuRii/pi-sticky-input) keeps the input editor anchored at the bottom. It does not show your question.
 
 ## Requirements
 
@@ -21,13 +26,13 @@ In regular mode the extension loads but stays inactive.
 No npm package needed — Pi installs packages straight from git:
 
 ```bash
-pi install git:github.com/laspinacristian/pi-sticky-prompt
+pi install git:github.com/laspinacristian/pi-sticky-question
 ```
 
 The HTTPS URL works too:
 
 ```bash
-pi install https://github.com/laspinacristian/pi-sticky-prompt
+pi install https://github.com/laspinacristian/pi-sticky-question
 ```
 
 Then restart Pi. That's it.
@@ -36,13 +41,13 @@ Other options:
 
 ```bash
 # Pin a specific release (tag)
-pi install git:github.com/laspinacristian/pi-sticky-prompt@v1.0.0
+pi install git:github.com/laspinacristian/pi-sticky-question@v1.0.0
 
 # Install for the current project only (.pi/settings.json)
-pi install -l git:github.com/laspinacristian/pi-sticky-prompt
+pi install -l git:github.com/laspinacristian/pi-sticky-question
 
 # Try it for one session without installing
-pi -e git:github.com/laspinacristian/pi-sticky-prompt
+pi -e git:github.com/laspinacristian/pi-sticky-question
 ```
 
 ### Manual install (single file)
@@ -51,8 +56,8 @@ The extension is a single file, so you can also drop it into Pi's auto-discovere
 
 ```bash
 mkdir -p ~/.pi/agent/extensions
-curl -fsSL https://raw.githubusercontent.com/laspinacristian/pi-sticky-prompt/main/extensions/sticky-prompt.ts \
-  -o ~/.pi/agent/extensions/sticky-prompt.ts
+curl -fsSL https://raw.githubusercontent.com/laspinacristian/pi-sticky-question/main/extensions/sticky-question.ts \
+  -o ~/.pi/agent/extensions/sticky-question.ts
 ```
 
 ## Usage
@@ -60,14 +65,14 @@ curl -fsSL https://raw.githubusercontent.com/laspinacristian/pi-sticky-prompt/ma
 It is enabled automatically at startup. Toggle it with:
 
 ```
-/sticky-prompt
+/sticky-question
 ```
 
 ## Update / uninstall
 
 ```bash
-pi update --extensions                                        # pull the latest version
-pi remove git:github.com/laspinacristian/pi-sticky-prompt     # uninstall
+pi update --extensions                                          # pull the latest version
+pi remove git:github.com/laspinacristian/pi-sticky-question     # uninstall
 ```
 
 (Versions pinned with `@<tag>` are not moved by `pi update`.)

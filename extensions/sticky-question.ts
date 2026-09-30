@@ -1,17 +1,17 @@
 /**
- * sticky-prompt — a "sticky" header showing the current prompt (fullscreen mode only).
+ * sticky-question — a "sticky" header showing the current question (fullscreen mode only).
  *
- * While you scroll through the conversation, the prompt that the answer you are
+ * While you scroll through the conversation, the question that the answer you are
  * reading belongs to is pinned at the top of the transcript. Scroll up to the answer
- * of an earlier prompt and the header switches to that prompt.
- * When the prompt itself is already visible at the top of the screen, the header hides.
+ * of an earlier question and the header switches to that question.
+ * When the question itself is already visible at the top of the screen, the header hides.
  *
- * Command: /sticky-prompt → toggle on/off
+ * Command: /sticky-question → toggle on/off
  */
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth, wrapTextWithAnsi } from "@earendil-works/pi-tui";
 
-const MAX_LINES = 3; // maximum number of prompt lines in the header
+const MAX_LINES = 3; // maximum number of question lines in the header
 
 // OSC 133 markers that Pi adds at the start/end of every message (user and assistant)
 const OSC133_START = /^(?:\x1b\]133;[ABC](?:\x07|\x1b\\))*\x1b\]133;A(?:\x07|\x1b\\)/;
@@ -45,7 +45,7 @@ function findTranscript(tui: any): { box: LayoutBox; lines: readonly string[]; t
 	return { box, lines: box.scrollContentLines, top: scrollView.scrollTop ?? 0 };
 }
 
-export default function stickyPrompt(pi: ExtensionAPI) {
+export default function stickyQuestion(pi: ExtensionAPI) {
 	let enabled = true;
 	let handle: { hide(): void; setHidden(h: boolean): void } | undefined;
 
@@ -60,14 +60,14 @@ export default function stickyPrompt(pi: ExtensionAPI) {
 				// Cache: recompute only when the content or scroll position changes
 				let cacheLines: readonly string[] | undefined;
 				let cacheTop = -1;
-				let cachePrompt: string | undefined;
+				let cacheQuestion: string | undefined;
 
 				const isUserStart = (line: string) => OSC133_START.test(line) && userBg !== "" && line.includes(userBg);
 
-				const promptAbove = (lines: readonly string[], top: number): string | undefined => {
-					if (lines === cacheLines && top === cacheTop) return cachePrompt;
+				const questionAbove = (lines: readonly string[], top: number): string | undefined => {
+					if (lines === cacheLines && top === cacheTop) return cacheQuestion;
 					let result: string | undefined;
-					// Find the closest prompt ABOVE the first visible row (i.e. already scrolled off screen)
+					// Find the closest question ABOVE the first visible row (i.e. already scrolled off screen)
 					for (let row = Math.min(top, lines.length) - 1; row >= 0; row--) {
 						if (!isUserStart(lines[row] ?? "")) continue;
 						const parts: string[] = [];
@@ -81,7 +81,7 @@ export default function stickyPrompt(pi: ExtensionAPI) {
 					}
 					cacheLines = lines;
 					cacheTop = top;
-					cachePrompt = result;
+					cacheQuestion = result;
 					return result;
 				};
 
@@ -90,13 +90,13 @@ export default function stickyPrompt(pi: ExtensionAPI) {
 						if (!enabled) return [];
 						const t = findTranscript(tui);
 						if (!t) return []; // regular mode or layout not ready yet
-						const prompt = promptAbove(t.lines, t.top);
-						if (!prompt) return [];
+						const question = questionAbove(t.lines, t.top);
+						if (!question) return [];
 
 						const w = Math.max(10, t.box.rect.width || width);
 						const prefix = "❯ ";
 						const avail = Math.max(5, w - prefix.length - 1);
-						let wrapped = wrapTextWithAnsi(prompt, avail);
+						let wrapped = wrapTextWithAnsi(question, avail);
 						if (wrapped.length > MAX_LINES) {
 							wrapped = wrapped.slice(0, MAX_LINES);
 							wrapped[MAX_LINES - 1] = `${truncateToWidth(wrapped[MAX_LINES - 1], avail - 2, "")} …`;
@@ -132,12 +132,12 @@ export default function stickyPrompt(pi: ExtensionAPI) {
 	pi.on("session_start", (_event, ctx) => show(ctx));
 	pi.on("session_shutdown", () => hide());
 
-	pi.registerCommand("sticky-prompt", {
-		description: "Toggle the header showing the prompt of the answer you are reading",
+	pi.registerCommand("sticky-question", {
+		description: "Toggle the header showing the question of the answer you are reading",
 		handler: async (_args, ctx) => {
 			enabled = !enabled;
 			show(ctx);
-			ctx.ui.notify(`Sticky prompt ${enabled ? "enabled" : "disabled"}`, "info");
+			ctx.ui.notify(`Sticky question ${enabled ? "enabled" : "disabled"}`, "info");
 		},
 	});
 }

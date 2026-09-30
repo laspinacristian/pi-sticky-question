@@ -1,17 +1,17 @@
 {
-  "name": "pi-sticky-prompt",
+  "name": "pi-sticky-question",
   "version": "1.0.0",
-  "description": "Pi coding agent extension that pins the prompt you are reading the answer to at the top of the transcript while you scroll.",
+  "description": "Pi coding agent extension that pins the question you are reading the answer to at the top of the transcript while you scroll.",
   "type": "module",
   "license": "MIT",
   "author": "Cristian La Spina",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/laspinacristian/pi-sticky-prompt.git"
+    "url": "git+https://github.com/laspinacristian/pi-sticky-question.git"
   },
   "keywords": ["pi-package", "pi-extension", "pi-coding-agent"],
   "pi": {
-    "extensions": ["./extensions/sticky-prompt.ts"]
+    "extensions": ["./extensions/sticky-question.ts"]
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
