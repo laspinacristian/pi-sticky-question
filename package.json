@@ -1,6 +1,6 @@
 {
   "name": "pi-sticky-question",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pi coding agent extension that pins the question you are reading the answer to at the top of the transcript while you scroll.",
   "type": "module",
   "license": "MIT",
@@ -11,7 +11,7 @@
   },
   "keywords": ["pi-package", "pi-extension", "pi-coding-agent"],
   "pi": {
-    "extensions": ["./extensions/sticky-question.ts"]
+    "extensions": ["./extensions/index.ts"]
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",

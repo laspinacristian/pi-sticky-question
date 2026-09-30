@@ -41,7 +41,7 @@ Other options:
 
 ```bash
 # Pin a specific release (tag)
-pi install git:github.com/laspinacristian/pi-sticky-question@v1.0.0
+pi install git:github.com/laspinacristian/pi-sticky-question@v1.0.1
 
 # Install for the current project only (.pi/settings.json)
 pi install -l git:github.com/laspinacristian/pi-sticky-question
@@ -56,7 +56,7 @@ The extension is a single file, so you can also drop it into Pi's auto-discovere
 
 ```bash
 mkdir -p ~/.pi/agent/extensions
-curl -fsSL https://raw.githubusercontent.com/laspinacristian/pi-sticky-question/main/extensions/sticky-question.ts \
+curl -fsSL https://raw.githubusercontent.com/laspinacristian/pi-sticky-question/main/extensions/index.ts \
   -o ~/.pi/agent/extensions/sticky-question.ts
 ```
 
